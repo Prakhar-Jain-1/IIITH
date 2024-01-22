@@ -83,6 +83,34 @@ class MarksManager:
         else:
             print("Entry not found.")
 
+    def searchEntry(self):
+        search_attribute = input("Enter the attribute to search for (e.g., FirstName, Semester, Course): ").strip().lower()
+
+        if search_attribute not in ["firstname", "lastname", "rollno", "semester", "coursename", "examtype"]:
+            print("Invalid search attribute.")
+            return
+        attr = {"firstname":None, "lastname":None, "rollno":None, "semester":None, "coursename":None, "examtype":None}
+        for searchA in search_attribute:
+            attr[searchA] = input(f"Enter {searchA}: ")
+        
+        self.table.clear_rows()
+        for stdDetails, semesters in self.entries.items():
+            if (attr["firstname"] != None and stdDetails[0] != attr["firstname"]) or (attr["lastname"] != None and stdDetails[1] != attr["lastname"]) or (attr["rollno"] != None and stdDetails[2] != attr["rollno"]) :
+                continue
+            for semester, courses in semesters.items():
+                if attr["semester"] != None and attr["semester"] != semester:
+                    continue
+                for course, exams in courses.items():
+                    if attr["coursename"] != None and attr["coursename"] != course:
+                        continue
+                    for exam_type, marks in exams.items():
+                        if attr["eaxmtype"] != None and attr["eaxmtype"] != exam_type:
+                            continue
+                        row_data = list(stdDetails) + [semester, course, exam_type, marks[0], marks[1]]
+                        self.table.add_row(row_data)
+        print(self.table)
+        pass
+    
 
 MM = MarksManager()
 MM.addEntry()

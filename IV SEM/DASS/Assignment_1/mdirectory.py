@@ -53,7 +53,7 @@ class MarksManager:
                         row_data = list(stdDetails) + [semester, course, exam_type, marks[0], marks[1]]
                         self.table.add_row(row_data)
         print(self.table)
-        input("Press Enter to continue...")
+        # input("Press Enter to continue...")
 
     
     def removeEntry(self):
@@ -115,7 +115,7 @@ class MarksManager:
                         row_data = list(stdDetails) + [semester, course, exam_type, marks[0], marks[1]]
                         self.table.add_row(row_data)
         print(self.table)
-        input("Press Enter to continue...")
+        # input("Press Enter to continue...")
         pass
     
     def loadFromCSV(self, filename):
@@ -196,7 +196,7 @@ def main():
             break
         else:
             print("Invalid choice. Please enter a number between 1 and 7.")
-
+        input("Press ENTER to continue...")
 if __name__ == "__main__":
     main()
 

@@ -86,7 +86,7 @@ class MarksManager:
     def searchEntry(self):
         search_attribute = input("Enter the attribute to search for (e.g., FirstName, Semester, Course): ").strip().lower()
 
-        if search_attribute not in ["firstname", "lastname", "rollno", "semester", "coursename", "examtype"]:
+        if search_attribute not in ["firstname", "lastname", "rollno", "semester", "coursename", "examtype",""]:
             print("Invalid search attribute.")
             return
         attr = {"firstname":None, "lastname":None, "rollno":None, "semester":None, "coursename":None, "examtype":None}
@@ -112,9 +112,74 @@ class MarksManager:
         pass
     
 
-MM = MarksManager()
-MM.addEntry()
 
-MM.displayTable()
-# MM.removeEntry()
-# MM.displayTable()
+    def loadFromCSV(self, filename):
+        try:
+            with open(filename, 'r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    stdDetails = tuple(row[:3])
+                    semester, course, Et, TM, SM = row[3:]
+                    if stdDetails not in self.entries:
+                        self.entries[stdDetails] = {}
+                    entry = self.entries[stdDetails]
+                    if semester not in entry:
+                        entry[semester] = {}
+                    entry = entry[semester]
+                    if course not in entry:
+                        entry[course] = {}
+                    entry = entry[course]
+                    if Et not in entry:
+                        entry[Et] = (int(TM), int(SM))
+                    else:
+                        print("Entry already there")
+        except FileNotFoundError:
+            print(f"Error: File {filename} not found.")
+
+    def saveToCSV(self, filename):
+        with open(filename, 'w', newline='') as file:
+            writer = csv.writer(file)
+            for stdDetails, semesters in self.entries.items():
+                for semester, courses in semesters.items():
+                    for course, exams in courses.items():
+                        for exam_type, marks in exams.items():
+                            writer.writerow(list(stdDetails) + [semester, course, exam_type, marks[0], marks[1]])
+
+def main():
+    MM = MarksManager()
+
+    # Load entries from a CSV file (if the file exists)
+    MM.loadFromCSV("marks_data.csv")
+
+    while True:
+        print("\nOptions:")
+        print("1. Add Entry")
+        print("2. Display Table")
+        print("3. Remove Entry")
+        print("4. Update Entry")
+        print("5. Search Entry")
+        print("6. Quit")
+
+        choice = input("Enter your choice (1-6): ")
+
+        if choice == "1":
+            MM.addEntry()
+        elif choice == "2":
+            MM.displayTable()
+        elif choice == "3":
+            MM.removeEntry()
+        elif choice == "4":
+            MM.updateEntry()
+        elif choice == "5":
+            MM.searchEntry()
+        elif choice == "6":
+            # Save entries to a CSV file before quitting
+            MM.saveToCSV("marks_data.csv")
+            print("Exiting program.")
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 6.")
+
+if __name__ == "__main__":
+    main()
+

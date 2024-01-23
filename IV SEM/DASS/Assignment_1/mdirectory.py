@@ -1,6 +1,7 @@
 import csv
 import sys
 from prettytable import PrettyTable
+import subprocess as sp
 
 class MarksManager:
     def __init__(self) -> None:
@@ -117,8 +118,6 @@ class MarksManager:
         input("Press Enter to continue...")
         pass
     
-
-
     def loadFromCSV(self, filename):
         try:
             with open(filename, 'r') as file:
@@ -165,6 +164,7 @@ def main():
     # print("df") 
 
     while True:
+        tmp = sp.call('clear', shell=True)
         print("\nOptions:")
         print("1. Add Entry")
         print("2. Display Table")
@@ -175,6 +175,7 @@ def main():
         print("7. Quit")
 
         choice = input("Enter your choice (1-7): ")
+        tmp = sp.call('clear', shell=True)
 
         if choice == "1":
             MM.addEntry()

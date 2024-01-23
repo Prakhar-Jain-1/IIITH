@@ -1,4 +1,5 @@
 import csv
+import sys
 from prettytable import PrettyTable
 
 class MarksManager:
@@ -51,6 +52,7 @@ class MarksManager:
                         row_data = list(stdDetails) + [semester, course, exam_type, marks[0], marks[1]]
                         self.table.add_row(row_data)
         print(self.table)
+        input("Press Enter to continue...")
 
     
     def removeEntry(self):
@@ -84,13 +86,16 @@ class MarksManager:
             print("Entry not found.")
 
     def searchEntry(self):
-        search_attribute = input("Enter the attribute to search for (e.g., FirstName, Semester, Course): ").strip().lower()
+        search_attributes = input("Enter the attributes to search for (e.g., FirstName, Semester, Course): ").strip().lower().split(',')
 
-        if search_attribute not in ["firstname", "lastname", "rollno", "semester", "coursename", "examtype",""]:
-            print("Invalid search attribute.")
+        invalid_attributes = [attr for attr in search_attributes if attr not in ["firstname", "lastname", "rollno", "semester", "coursename", "examtype", ""]]
+
+        if invalid_attributes:
+            print(f"Invalid search attribute(s): {', '.join(invalid_attributes)}")
             return
+
         attr = {"firstname":None, "lastname":None, "rollno":None, "semester":None, "coursename":None, "examtype":None}
-        for searchA in search_attribute:
+        for searchA in search_attributes:
             attr[searchA] = input(f"Enter {searchA}: ")
         
         self.table.clear_rows()
@@ -104,11 +109,12 @@ class MarksManager:
                     if attr["coursename"] != None and attr["coursename"] != course:
                         continue
                     for exam_type, marks in exams.items():
-                        if attr["eaxmtype"] != None and attr["eaxmtype"] != exam_type:
+                        if attr["examtype"] != None and attr["examtype"] != exam_type:
                             continue
                         row_data = list(stdDetails) + [semester, course, exam_type, marks[0], marks[1]]
                         self.table.add_row(row_data)
         print(self.table)
+        input("Press Enter to continue...")
         pass
     
 
@@ -149,7 +155,14 @@ def main():
     MM = MarksManager()
 
     # Load entries from a CSV file (if the file exists)
-    MM.loadFromCSV("marks_data.csv")
+    MarksCsv = "marks.csv"
+    if len(sys.argv) > 1:
+        MarksCsv = sys.argv[0]
+    # else:
+        # MarksCsv = 
+    # print(MarksCsv)
+    MM.loadFromCSV(MarksCsv)
+    # print("df") 
 
     while True:
         print("\nOptions:")
@@ -158,9 +171,10 @@ def main():
         print("3. Remove Entry")
         print("4. Update Entry")
         print("5. Search Entry")
-        print("6. Quit")
+        print("6. Save to File")
+        print("7. Quit")
 
-        choice = input("Enter your choice (1-6): ")
+        choice = input("Enter your choice (1-7): ")
 
         if choice == "1":
             MM.addEntry()
@@ -174,7 +188,9 @@ def main():
             MM.searchEntry()
         elif choice == "6":
             # Save entries to a CSV file before quitting
-            MM.saveToCSV("marks_data.csv")
+            MM.saveToCSV(MarksCsv)
+        elif choice == '7':
+            MM.saveToCSV(MarksCsv)
             print("Exiting program.")
             break
         else:

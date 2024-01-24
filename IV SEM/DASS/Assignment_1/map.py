@@ -49,14 +49,26 @@ def main():
 
     commands = []
 
+    print("Enter distance and direction (0 to stop):\n(press ENTER after every command)")
     while True:
-        distance = float(input("Enter distance (0 to stop): "))
+        distance,direction = input().split()
+        # print(distance,direction)
+        direction = direction.upper()
+        try:
+            distance = float(distance)
+        except:
+            print("INVALID DISTANCE")
+            continue
         if distance == 0:
             break
-        print()
-        direction = input("Enter direction (N, NE, E, SE, S, SW, W, NW): ").upper()
+        if(direction not in ["N","NE","NW","E","W","S","SE","SW"]):
+            print("INVALID DIRECTION")
+            continue
+        # input("press enter")
+        # print(//)
+        # direction = input("Enter direction (N, NE, E, SE, S, SW, W, NW): ").upper()
         # print()
-        tmp = sp.call('clear', shell=True)
+        # tmp = sp.call('clear', shell=True)
         commands.append((distance, direction))
 
     tmp = sp.call('clear', shell=True)

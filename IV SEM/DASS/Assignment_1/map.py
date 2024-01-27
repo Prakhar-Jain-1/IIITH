@@ -44,12 +44,35 @@ class vector:
         plt.grid(True)
         plt.show()
 
+    def printRelative(self):
+        deg = np.degrees(np.arctan2(self.y,self.x))
+        print("The final destination is ",end='')
+        if -22.5 <= deg <=22.5:
+            print("E",end=' ')
+        elif 22.5 <= deg <=67.5:
+            print("NE",end=' ')
+        elif 67.5 <= deg <=112.5:
+            print("N",end=' ')
+        elif 112.5 <= deg <=157.5:
+            print("NW",end=' ')
+        elif 157.5 <= deg <=180 or -180 <= deg <= -157.5:
+            print("W",end=' ')
+        elif -157.5 <= deg <= -112.5:
+            print("SW",end=' ')
+        elif -112.5 <= deg <= -67.5:
+            print("S",end=' ')
+        else:
+            print("SE",end=' ')
+        print("of the Starting point")
+        
+        pass
+
 def main():
     v = vector()
 
     commands = []
 
-    print("Enter distance and direction (0 to stop):\n(press ENTER after every command)")
+    print("Enter distance and direction (\"0 0\"to stop):\n(press ENTER after every command)")
     while True:
         distance,direction = input().split()
         # print(distance,direction)
@@ -77,6 +100,7 @@ def main():
         v.AddDistance(distance,direction)
 
     # v.printCoord()
+    v.printRelative()
     v.plot_movement()
 
 if __name__ == "__main__":

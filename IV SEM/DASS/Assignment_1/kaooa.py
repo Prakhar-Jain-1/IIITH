@@ -145,6 +145,9 @@ class Place:
 
 
     def Draw(self, screen):
+        font = pygame.font.Font(None, 36)
+        draw_text = lambda text, x, y: screen.blit(font.render(text, True, black), (x, y))
+        draw_text(f"{self.killCount}", 30, 20)
         for crow in self.crows:
             crow.display(screen)
         self.vulture.display(screen)
@@ -158,7 +161,7 @@ class Game:
         pygame.init()
         self.width, self.height = 1000, 1000
         self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption("Star Pentagram Board")
+        pygame.display.set_caption("Kaooa Board Game")
 
         self.board = Board(self.width, self.height)
         self.place = Place(self.board.star_points, self.width, self.height)

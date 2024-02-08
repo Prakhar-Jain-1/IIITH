@@ -2,6 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import subprocess as sp
 
+class Dis:
+    def __init__(self) -> None:
+        self.unit = {"mm" :0.001, "cm" :0.01, "m" :1, "km": 1000}
+        pass
+
+
 class vector:
     def __init__(self) -> None:
         self.x = 0
@@ -71,27 +77,36 @@ def main():
     v = vector()
 
     commands = []
-
+    dis = Dis()
     print("Enter distance and direction (\"0 0\"to stop):\n(press ENTER after every command)")
     while True:
-        distance,direction = input().split()
+        try:
+            distance,direction = input().split()
+        except:
+            print("INVALID INPUT")
+            continue
         # print(distance,direction)
         direction = direction.upper()
-        try:
-            distance = float(distance)
-        except:
-            print("INVALID DISTANCE")
-            continue
-        if distance == 0:
+        if distance == '0':
             break
+        index = next((i for i, c in enumerate(distance) if not c.isdigit()), None)
+
+        if index is None:
+            raise ValueError
+
+        distance_str, unit = distance[:index], distance[index:].lower()
+
+        try:
+            print(distance_str,unit)
+            distance = float(distance_str)
+            distance *= dis.unit[unit]
+        except Exception as e:
+            print(f"{e} INVALID DISTANCE")
+            continue
         if(direction not in ["N","NE","NW","E","W","S","SE","SW"]):
             print("INVALID DIRECTION")
             continue
-        # input("press enter")
-        # print(//)
-        # direction = input("Enter direction (N, NE, E, SE, S, SW, W, NW): ").upper()
-        # print()
-        # tmp = sp.call('clear', shell=True)
+
         commands.append((distance, direction))
 
     tmp = sp.call('clear', shell=True)

@@ -49,5 +49,5 @@ productWOele:
     ret
 
 .exit:
-    movq $1, %rdi
+    movq $1, (%rdi)
     ret

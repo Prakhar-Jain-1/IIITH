@@ -2,20 +2,21 @@
 .text
 
 productWOele:
-    cmpq $1, %rsi
-    je .exit
+    # cmpq $1, %rsi
+    # je .exit
     movq %rsi, %r10
     movq $1, %r9
     movq (%rdx), %r11
     movq $1, (%rdx)
     call .floop
     decq %r10
-    movq (%rcx,%r10,8), %r11
-    movq $1, (%rcx,%r10,8)
+    movq (%rdi,%r10,8), %r11
+    movq $1, (%rdi,%r10,8)
     decq %r10
     call .rloop
     movq $0, %r9
     call .calc
+    movq %rdi, %rax
     ret
 
 .floop:
@@ -29,10 +30,10 @@ productWOele:
     ret
 
 .rloop:
-    movq 8(%rcx,%r10,8), %r8
+    movq 8(%rdi,%r10,8), %r8
     imulq %r11, %r8
-    movq (%rcx,%r10,8),%r11
-    movq %r8,(%rcx,%r10,8)
+    movq (%rdi,%r10,8),%r11
+    movq %r8,(%rdi,%r10,8)
     decq %r10
     cmpq $0,%r10
     jnl .rloop
@@ -40,7 +41,7 @@ productWOele:
 
 .calc:
     movq (%rdx,%r9,8), %r8
-    movq (%rcx,%r9,8), %r10
+    movq (%rdi,%r9,8), %r10
     imulq %r10, %r8
     movq %r8,(%rdi,%r9,8)
     incq %r9
@@ -49,5 +50,5 @@ productWOele:
     ret
 
 .exit:
-    movq $1, (%rdi)
+    movq $1, (%rdx)
     ret

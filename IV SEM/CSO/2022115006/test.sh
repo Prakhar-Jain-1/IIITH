@@ -1,13 +1,21 @@
-read -p "Enter a question number (i): " i
+#!/bin/bash
 
-folder="q$i"
+while true; do
+    read -p "Enter a question number (1-5): " i
+    if [[ "$i" =~ ^[1-5]$ ]]; then
+        folder="q$i"
+        
+        cd "$folder" || exit 1
+        gcc q$i.* -o q$i
 
-cd "$folder" || exit 1
+        if [ $? -eq 0 ]; then
+            ./q$i
+        fi
 
-gcc q*
-
-if [ $? -eq 0 ]; then
-    ./a.out
-fi
-rm a.out
-cd ..
+        rm q$i
+        cd ..
+    else
+        echo "Invalid input. Exiting."
+        break
+    fi
+done

@@ -3,12 +3,12 @@
 
 sumMinMax:
     movq $0, %r10
-    movswq (%rdi,%r10,4), %r8 # min
-    movswq (%rdi,%r10,4), %r9 # max
+    movslq (%rdi,%r10,4), %r8 # min
+    movslq (%rdi,%r10,4), %r9 # max
     jmp .loop
 
 .loop:
-    movswq (%rdi,%r10,4), %r11
+    movslq (%rdi,%r10,4), %r11
     cmpq %r11, %r8
     jg .min
     

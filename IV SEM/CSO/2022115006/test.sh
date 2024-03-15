@@ -1,6 +1,7 @@
 #!/bin/bash
 
 while true; do
+    clear
     read -p "Enter a question number (1-5): " i
     if [[ "$i" =~ ^[1-5]$ ]]; then
         folder="q$i"
@@ -14,6 +15,7 @@ while true; do
 
         rm q$i
         cd ..
+        read -p "press enter to continue"
     else
         echo "Invalid input. Exiting."
         break

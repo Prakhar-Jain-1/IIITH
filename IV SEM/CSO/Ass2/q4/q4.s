@@ -4,7 +4,6 @@
 baseball:
     xorq %r8, %r8       # array passer (i)
     xorq %r9, %r9       # count
-
     cmpq %rsi, %r8
     jl .looper
 .looper:

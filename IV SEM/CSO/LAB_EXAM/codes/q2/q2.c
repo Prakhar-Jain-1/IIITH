@@ -5,5 +5,5 @@ bool oddBit(ll);
 int main() {
     ll n;
     scanf("%lld",&n);
-    printf("%s\n", oddBit(n)? "true": "false");
+    printf("%s\n", oddBit(n)? "True": "False");
 }

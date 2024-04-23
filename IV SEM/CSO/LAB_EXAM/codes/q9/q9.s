@@ -48,8 +48,8 @@ firstNonNeg:
 
 .finder:
     movq (%rsi, %r8, 8), %r10
-    cmpq $0, %r10
-    jle .increaser
+    cmpq %rax, %r10
+    jl .increaser
     cmpq %rax, %r10
     je .equal
     ret

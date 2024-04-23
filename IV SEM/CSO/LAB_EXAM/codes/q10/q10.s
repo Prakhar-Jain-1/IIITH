@@ -31,6 +31,8 @@ WeirdRearrange:
     cmove %r9, %r14
     cmpq $1, %rdx
     cmove %r9, %r15
+    cmpq $-1, %rdx
+    cmove %r9, %r15
     ret
 
 .bubbleSort:
@@ -46,7 +48,7 @@ WeirdRearrange:
     cmpq %r10, %r9
     jl .looper    
     incq %r8
-    cmpq %r10, %r8
+    cmpq %r11, %r8
     jl .bubbleSort
     ret
 
